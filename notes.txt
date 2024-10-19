@@ -1,0 +1,22 @@
+Should Be True:
+1. phone numbers should have a 1 to 1 mapping to customers, meaning phone numbers should not be shared between different customers
+
+Potentially True;
+1. customer can have multiple line meaning there can potentially be different billing cycles and data usages for each customer
+2. cycle-usage service can potentially involve writing the usage data to the data base
+
+Assumptions:
+1. Assume that the usage collection is updated every 15 minutes for the usedInMb field. - This does not mean the cycle-usage service updates the values. The Cycle Usage Service only provides analytics for this.
+2. 50 million documents on daily usage means 50 million lines are open since each record is updated only for the usedInMb field
+3. JWT extracted from the is trustworthy and is extracted from a session cookie
+
+Things to take note of:
+1. Date is updated frequently, and each document for the day is updated accordingly
+2. Since I am splitting the user and usage-cycle functionalities between two services, for the session cookie to be valid I would need to take a couple security factors into consideration. One thing I would probably do is share the same domain.
+
+Questions:
+How should the billing cycle be handled if a phone number is transfered from user A to B?
+
+Architectural Design & Reasoning
+1. Split User and Cycle-Usage
+2. Cycle-Usage should be within the same VPC w/ at least TLSv1.2
