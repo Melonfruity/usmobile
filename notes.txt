@@ -8,15 +8,33 @@ Potentially True;
 Assumptions:
 1. Assume that the usage collection is updated every 15 minutes for the usedInMb field. - This does not mean the cycle-usage service updates the values. The Cycle Usage Service only provides analytics for this.
 2. 50 million documents on daily usage means 50 million lines are open since each record is updated only for the usedInMb field
-3. JWT extracted from the is trustworthy and is extracted from a session cookie
+3. JWT extracted from the is trustworthy and is extracted from a session cookie / bearer token header?
 
 Things to take note of:
 1. Date is updated frequently, and each document for the day is updated accordingly
 2. Since I am splitting the user and usage-cycle functionalities between two services, for the session cookie to be valid I would need to take a couple security factors into consideration. One thing I would probably do is share the same domain.
 
 Questions:
-How should the billing cycle be handled if a phone number is transfered from user A to B?
+1. How should the billing cycle be handled if a phone number is transfered from user A to B? I think it would be best that a new cycle is created for that user and the old cycle can be marked some how depending on business requirements.
+  - Adding on, I also think it would make sense to keep the old users records... if it were ever brought up if it should or should not be deleted. In that sense, should I also assume a phone number document also keeps track of who had it in the past?
+2. For getting the current cycle daily usage - What does that mean? Right now I understand Daily Cycle to be the Daily Usage because it says Daily but the Cycle part specifies the entire billing cycle. Would it be correct to assume that this means the daily usage within a cycle?
+3. What is a valid current cycle? Can I assume that the the current day is within the start and end date of a cycle?
 
-Architectural Design & Reasoning
+
+Architectural Design & considerations
 1. Split User and Cycle-Usage
 2. Cycle-Usage should be within the same VPC w/ at least TLSv1.2
+3. At the moment Cycle-Usage & User share the same database so it can make sense that they would be implemented in the same repo. But for a scalability argument, it better to separate these two functionalities are they serve different purposes
+4. The scale in number of documents is significant enough that read optimization strategies should be used
+  - This could be maybe cached daily or cached monthly computations
+  - Need to be wary of what the cost and architectural restraints would be.
+  - Database optimation
+    - Indexing - Determine fields that are frequently used then create a index on them or a compound indexes if needed
+    - Schema Design - Use Projections so return only field required when conducting queries
+    - Sharding...
+    - Maintananence
+      - such as maybe archiving old entries
+      - if a users usage has already completed the cycle then that data can be archived as well as creating a archived aggregate of the cycle total so that the values do not need to be aggregated again
+
+To do
+1. Add Field Validation for query searches

@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.usmobile.assessment.cycle-usage-analytics-service' is invalid and this project uses 'com.usmobile.assessment.cycle_usage_analytics_service' instead.
+* The original package name 'com.usmobile.assessment.cycle-usage-analytics-service' is invalid and this project uses 'com.usmobile.assessment.cycle_usage_service' instead.
 
 # Getting Started
 

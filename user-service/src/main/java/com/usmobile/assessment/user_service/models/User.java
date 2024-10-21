@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank
@@ -33,4 +32,6 @@ public class User {
     @Size()
     @JsonIgnore
     private String password;
+
+    // TODO Potentially add a MDN Array
 }
