@@ -1,5 +1,6 @@
 package com.usmobile.assessment.cycle_usage_service.security.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -15,6 +16,14 @@ import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -28,9 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
 
             // Validate the JWT token
-            if (JwtUtil.validateToken(token)) {
+            if (jwtUtil.validateToken(token)) {
                 // Extract userId from the JWT token
-                String userId = JwtUtil.extractUserId(token);
+                String userId = jwtUtil.extractUserId(token);
 
                 // I only care about if the UserId exists in the JWT
                 if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {

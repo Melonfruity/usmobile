@@ -26,7 +26,7 @@ public class BillingCycleController {
     }
 
     // Get Current Cycle Usage
-    @GetMapping
+    @GetMapping("/total-usage")
     public ResponseEntity<BillingCycleUsageResponse> getDailyUsageForCurrentCycle(
             @RequestParam @Valid String mdn,
             @AuthenticationPrincipal BasicUserDetails basicUserDetails) {
@@ -44,6 +44,7 @@ public class BillingCycleController {
         return ResponseEntity.ok(response);
     }
 
+    // TODO Remove
     // Create Cycle Data for Testing
     @PostMapping
     public ResponseEntity<CreateBillingCycleResponse> createBillingCycles(

@@ -1,3 +1,5 @@
+// TODO Remove
+
 package com.usmobile.assessment.cycle_usage_service.queries;
 
 public class CommonQueries {

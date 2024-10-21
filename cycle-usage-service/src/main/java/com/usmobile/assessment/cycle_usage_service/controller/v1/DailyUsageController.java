@@ -1,3 +1,5 @@
+// TODO Remove
+
 package com.usmobile.assessment.cycle_usage_service.controller.v1;
 
 import com.usmobile.assessment.cycle_usage_service.request.v1.CreateDailyUsageRequest;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class DailyUsageController {
 
     private final DailyUsageService dailyUsageService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public DailyUsageController(DailyUsageService dailyUsageService) {
+    public DailyUsageController(DailyUsageService dailyUsageService, JwtUtil jwtUtil) {
         this.dailyUsageService = dailyUsageService;
+        this.jwtUtil = jwtUtil;
     }
 
     // Create Daily Usages for Testing
@@ -33,8 +37,8 @@ public class DailyUsageController {
 
     @PostMapping("/{id}")
     public ResponseEntity<String> createJwtToken(@PathVariable String id){
-        String token = JwtUtil.generateToken(id);
-        String userId = JwtUtil.extractUserId(token);
+        String token = jwtUtil.generateToken(id);
+        String userId = jwtUtil.extractUserId(token);
         return ResponseEntity.ok("Token:" + token + " userId: " + userId);
     }
 }

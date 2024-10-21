@@ -1,15 +1,13 @@
 package com.usmobile.assessment.cycle_usage_service.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,9 +15,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "daily_usage")
-@CompoundIndexes({
-        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}", unique = true)
-}) // Compound Index Since we're always searching on userId and mdn, unique ensures that the userid and mdn combination is unique
 public class DailyUsage {
 
     @Id
@@ -35,7 +30,7 @@ public class DailyUsage {
     private String userId;
 
     @NotNull(message = "Usage date is required")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date usageDate;
 
     // Not using Integer because there can be fractional values in MB usage such as 2.3 or 1.1
