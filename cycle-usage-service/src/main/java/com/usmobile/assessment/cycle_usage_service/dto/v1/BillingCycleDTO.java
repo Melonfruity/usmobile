@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.Date;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,11 +24,9 @@ public class BillingCycleDTO {
     @JsonFormat
     private Date startDate; // Start date of the billing cycle
 
-    // @DateTimeFormat for HTTP Method DTOs
-    // @JsonFormat for Serializing / Deserializing Payloads
     @NotBlank(message = "End date is required")
     @JsonFormat
     private Date endDate; // End date of the billing cycle
 
-    // TODO Field isActive for in case this Cycle has been invalidated by any mean such as when a customer has changed their line
+    // TODO isActive Field for in case this Cycle has been invalidated by any mean such as when a customer has changed their line
 }

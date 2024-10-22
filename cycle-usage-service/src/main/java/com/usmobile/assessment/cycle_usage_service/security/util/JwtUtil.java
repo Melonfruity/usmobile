@@ -66,6 +66,7 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims) {
+        LoggerUtil.logInfo("Creating Token");
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

@@ -1,4 +1,4 @@
-package com.usmobile.assessment.cycle_usage_service.response.v1;
+package com.usmobile.assessment.cycle_usage_service.exception;
 
 import lombok.Getter;
 import lombok.Setter;

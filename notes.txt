@@ -37,4 +37,11 @@ Architectural Design & considerations
       - if a users usage has already completed the cycle then that data can be archived as well as creating a archived aggregate of the cycle total so that the values do not need to be aggregated again
 
 To do
-1. Add Field Validation for query searches
+1. Fix it so Date Returns Time Zone
+2. Add TestContainers
+3. Move Services to Docker
+4. Ask Ulas some Questions
+5. Figure out how to do DB auditing to splunk?
+6. Create a swagger doc
+7. Fix up User Service and add Auth Service to it
+8. Figure out how to use disable Spring Security on billing-cycle service
