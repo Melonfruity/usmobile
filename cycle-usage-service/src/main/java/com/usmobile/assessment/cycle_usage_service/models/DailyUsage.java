@@ -18,9 +18,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "daily_usage")
-@CompoundIndexes({
-        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}") // Index based on userId as first field and mdn as second
-})
+//@CompoundIndexes({
+//        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}") // Index based on userId as first field and mdn as second
+//})
 public class DailyUsage {
 
     @Id

@@ -1,5 +1,7 @@
 package com.usmobile.assessment.cycle_usage_service.service;
 
+import com.usmobile.assessment.cycle_usage_service.dto.v1.BillingCycleDTOMapper;
+import com.usmobile.assessment.cycle_usage_service.dto.v1.DailyUsageDTOMapper;
 import com.usmobile.assessment.cycle_usage_service.response.v1.BillingCycleHistoryResponse;
 import com.usmobile.assessment.cycle_usage_service.response.v1.BillingCycleUsageResponse;
 import com.usmobile.assessment.cycle_usage_service.models.BillingCycle;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class BillingCycleService {
 
@@ -45,13 +49,18 @@ public class BillingCycleService {
         LoggerUtil.logInfo("Current Billing Cycle: ", currentCycle.getStartDate(), currentCycle.getEndDate());
 
         List<DailyUsage> dailyUsages = dailyUsageRepository.findUsageWithinCycle(userId, mdn, currentCycle.getStartDate(), currentCycle.getEndDate());
-        return new BillingCycleUsageResponse(dailyUsages);
+
+        return new BillingCycleUsageResponse(dailyUsages
+                .stream().map(DailyUsageDTOMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList()));
     }
 
     // Get Cycle History Of A Given MDN & UserId
     public BillingCycleHistoryResponse getCycleHistory(String userId, String mdn) {
         LoggerUtil.logInfo("Getting Billing Cycle History For User And MDN: ", userId, mdn);
         List<BillingCycle> billingCycles = billingCycleRepository.findBillingCycleHistory(userId, mdn);
-        return new BillingCycleHistoryResponse(billingCycles);
+        return new BillingCycleHistoryResponse(billingCycles
+                .stream().map(BillingCycleDTOMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList()));
     }
 }

@@ -44,11 +44,4 @@ public class BillingCycleController {
         BillingCycleHistoryResponse response = billingCycleService.getCycleHistory(basicUserDetails.getUserId(), mdn);
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<String> createJwtToken(@PathVariable String id){
-        String token = jwtUtil.generateToken(id);
-        String userId = jwtUtil.extractUserId(token);
-        return ResponseEntity.ok("Token:" + token + " userId: " + userId);
-    }
 }
