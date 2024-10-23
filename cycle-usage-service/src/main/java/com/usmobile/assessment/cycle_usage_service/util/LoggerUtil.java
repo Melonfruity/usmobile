@@ -15,7 +15,7 @@ public class LoggerUtil {
     public static void logInfo(String message) { logger.info(message); }
 
     // Log at DEBUG level
-    public static void logDebug(String message, Object data) {
+    public static void logDebug(String message, Object... data) {
         logger.debug(formatMessage(message, data));
     }
 

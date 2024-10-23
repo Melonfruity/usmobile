@@ -3,7 +3,6 @@ package com.usmobile.assessment.cycle_usage_service.controller.v1;
 import com.usmobile.assessment.cycle_usage_service.response.v1.BillingCycleHistoryResponse;
 import com.usmobile.assessment.cycle_usage_service.response.v1.BillingCycleUsageResponse;
 import com.usmobile.assessment.cycle_usage_service.security.util.BasicUserDetails;
-import com.usmobile.assessment.cycle_usage_service.security.util.JwtUtil;
 import com.usmobile.assessment.cycle_usage_service.service.BillingCycleService;
 import com.usmobile.assessment.cycle_usage_service.util.LoggerUtil;
 import jakarta.validation.Valid;
@@ -17,12 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class BillingCycleController {
 
     private final BillingCycleService billingCycleService;
-    private final JwtUtil jwtUtil;
 
     @Autowired
-    public BillingCycleController(BillingCycleService billingCycleService, JwtUtil jwtUtil) {
+    public BillingCycleController(BillingCycleService billingCycleService) {
         this.billingCycleService = billingCycleService;
-        this.jwtUtil = jwtUtil;
     }
 
     // Get Current Cycle Usage

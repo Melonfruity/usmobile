@@ -22,7 +22,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DailyUsageRepositoryTest {
     @Container
-    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.0.10");
+    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:5.0.0");
 
     private final DailyUsageRepository dailyUsageRepository;
 

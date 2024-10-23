@@ -1,4 +1,3 @@
-// TODO Remove
 package com.usmobile.assessment.cycle_usage_service.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

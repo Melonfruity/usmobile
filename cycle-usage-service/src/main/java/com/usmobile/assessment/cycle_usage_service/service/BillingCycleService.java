@@ -29,12 +29,10 @@ public class BillingCycleService {
 
     // Get The Daily Usage Within A Cycle Of A Given MDN & UserId
     public BillingCycleUsageResponse getDailyUsageForCurrentCycle(String userId, String mdn) throws Exception {
-        LoggerUtil.logInfo("Getting Daily Usage Within Current Cycle: ", userId, mdn);
+        LoggerUtil.logDebug("Getting Daily Usage Within Current Cycle: ", userId, mdn);
 
         Date today = new Date();
 
-        LoggerUtil.logInfo("Today", today.toString());
-        // Retrieve the current billing cycle using Spring Data's Query Generator
         List<BillingCycle> currentCycles = billingCycleRepository.findCurrentBillingCycle(userId, mdn, today);
 
         if (currentCycles.size() > 1) {
@@ -48,7 +46,7 @@ public class BillingCycleService {
         // Assumption is that there should only be 1 Cycle Per Phone Number Per Current Cycle
         BillingCycle currentCycle = currentCycles.get(0);
 
-        LoggerUtil.logInfo("Current Billing Cycle: ", currentCycle.getStartDate(), currentCycle.getEndDate());
+        LoggerUtil.logDebug("Current Billing Cycle: ", currentCycle.getStartDate(), currentCycle.getEndDate());
 
         List<DailyUsage> dailyUsages = dailyUsageRepository.findUsageWithinCycle(userId, mdn, currentCycle.getStartDate(), currentCycle.getEndDate());
 

@@ -27,7 +27,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BillingCycleServiceTest {
     @Container
-    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.0.10");
+    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:5.0.0");
 
     private final DailyUsageRepository dailyUsageRepository;
     private final BillingCycleRepository billingCycleRepository;
@@ -95,9 +95,6 @@ class BillingCycleServiceTest {
         BillingCycleUsageResponse billingCycleDailyUsages = billingCycleService.getDailyUsageForCurrentCycle("testUserId1", "1111111111");
 
         // Assert
-        // Spy on getDailyUsageForCurrentCycle is called with the correct input
-        // Spy on findCurrentBillingCycle is called with the correct input
-        // Spy on findUsageWithinCycle is called with the correct input
         assertThat(billingCycleDailyUsages.getDailyUsages().size()).isEqualTo(1);
         assertThat(billingCycleDailyUsages.getDailyUsages().get(0).getUsageInMb()).isEqualTo(50.5);
     }

@@ -27,6 +27,4 @@ public class BillingCycleDTO {
     @NotBlank(message = "End date is required")
     @JsonFormat
     private Date endDate; // End date of the billing cycle
-
-    // TODO isActive Field for in case this Cycle has been invalidated by any mean such as when a customer has changed their line
 }

@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "OpenAPI definition", "version": "v0" },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api-dev",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/v1/cycle/history": {
+      "get": {
+        "tags": ["billing-cycle-controller"],
+        "operationId": "getCycleHistory",
+        "parameters": [
+          {
+            "name": "mdn",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingCycleHistoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cycle/current-usage": {
+      "get": {
+        "tags": ["billing-cycle-controller"],
+        "operationId": "getDailyUsageForCurrentCycle",
+        "parameters": [
+          {
+            "name": "mdn",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingCycleUsageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "BillingCycleDTO": {
+        "required": ["endDate", "mdn", "startDate", "userId"],
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "mdn": { "type": "string" },
+          "startDate": { "type": "string", "format": "date-time" },
+          "endDate": { "type": "string", "format": "date-time" }
+        }
+      },
+      "BillingCycleHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "billingCycleList": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BillingCycleDTO" }
+          }
+        }
+      },
+      "BillingCycleUsageResponse": {
+        "type": "object",
+        "properties": {
+          "dailyUsages": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DailyUsageDTO" }
+          }
+        }
+      },
+      "DailyUsageDTO": {
+        "required": ["mdn", "usageDate", "usageInMb", "userId"],
+        "type": "object",
+        "properties": {
+          "mdn": { "pattern": "^[0-9]{10}$", "type": "string" },
+          "userId": { "type": "string" },
+          "usageDate": { "type": "string", "format": "date-time" },
+          "usageInMb": { "type": "number", "format": "double" }
+        }
+      }
+    }
+  }
+}

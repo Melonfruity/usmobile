@@ -26,7 +26,7 @@ public class DevSecurityConfig {
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             LoggerUtil.logInfo("Configuring Security...");
-            // Configurations for Security under the use case that only using JWTs that validate if userId exists
+
             http
                     .csrf(AbstractHttpConfigurer::disable)
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -35,7 +35,6 @@ public class DevSecurityConfig {
             return http.build();
         }
 
-        // AuthenticationManager bean for managing authentication
         @Bean
         public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
             return authenticationConfiguration.getAuthenticationManager();
