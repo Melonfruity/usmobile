@@ -8,10 +8,6 @@
 **/.idea/
 
 # Ignore all Maven target directories
-<<<<<<< HEAD
-**/target/
-=======
 **/target/
 
 **/*.tar
->>>>>>> fc796a1 (remove docker image from commit)
