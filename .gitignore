@@ -11,3 +11,6 @@
 **/target/
 
 **/*.tar
+
+/node_modules
+package.json

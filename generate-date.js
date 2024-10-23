@@ -1,7 +1,5 @@
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-
-const { MongoClient } = require('mongodb');
 const moment = require('moment');
 
 async function run() {
@@ -26,6 +24,7 @@ async function run() {
     for (const user of users) {
         const result = await usersCollection.insertOne(user);
         const userId = result.insertedId;
+        const mdn = Math.floor(Math.random() * 10000000000);
 
         // Define billing cycles with at least one cycle having today's date
         const today = moment();
@@ -35,8 +34,8 @@ async function run() {
         const endDate2 = today.add(15, 'days').toDate(); // Cycle 2 ends in 15 days
 
         const billingCycles = [
-            { mdn: '5555555555', userId: userId.toString(), startDate: startDate1, endDate: endDate1 },
-            { mdn: '5555555555', userId: userId.toString(), startDate: startDate2, endDate: endDate2 }
+            { mdn, userId: userId.toString(), startDate: startDate1, endDate: endDate1 },
+            { mdn, userId: userId.toString(), startDate: startDate2, endDate: endDate2 }
         ];
 
         // Insert billing cycles
@@ -51,7 +50,7 @@ async function run() {
             for (let i = 0; i < 5; i++) {
                 const usageDate = moment(cycleStartDate).add(i, 'days').toDate();
                 const dailyUsage = {
-                    mdn: '5555555555',
+                    mdn,
                     userId: userId.toString(),
                     usageDate: usageDate,
                     usageInMb: Math.floor(Math.random() * 100) + 1 // Random usage between 1-100 MB
