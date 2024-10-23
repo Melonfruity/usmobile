@@ -14,11 +14,7 @@ public class RequestLoggerInterceptor implements HandlerInterceptor {
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-<<<<<<< HEAD
-            logger.info("Incoming request: method={}, uri={}, remoteAddr={}, body={}",
-=======
             logger.debug("Incoming request: method={}, uri={}, remoteAddr={}, body={}",
->>>>>>> fc796a1 (remove docker image from commit)
                     request.getMethod(),
                     request.getRequestURI(),
                     request.getRemoteAddr());
