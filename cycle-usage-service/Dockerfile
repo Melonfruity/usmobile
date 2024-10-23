@@ -10,5 +10,5 @@ COPY target/*.jar app.jar
 # Specify the command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Expose the port that your application runs on (default is 8080)
+# Expose the port to port 8080
 EXPOSE 8080
