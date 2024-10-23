@@ -1,4 +1,4 @@
-package com.usmobile.assessment.cycle_usage_service.security.util;
+package com.usmobile.assessment.user_service.security.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

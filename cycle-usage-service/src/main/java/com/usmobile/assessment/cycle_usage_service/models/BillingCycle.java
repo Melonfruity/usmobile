@@ -6,10 +6,11 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,12 +20,14 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "billing_cycle")
+@CompoundIndexes({
+        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}") // Index based on userId as first field and mdn as second
+})
 public class BillingCycle {
 
     @Id
     private String id;
 
-//    @Indexed // We will always search by mdn
     @NotNull(message = "MDN is required")
     @Pattern(regexp = "\\d{10}", message = "MDN must be a 10-digit number")
     private String mdn;
@@ -41,7 +44,12 @@ public class BillingCycle {
     @JsonFormat
     private Date endDate;
 
-    @Indexed // We will always search by UserId
     @NotNull(message = "User ID is required")
     private String userId;
+
+    @CreatedDate
+    private Date createdDate;
+
+    @LastModifiedDate
+    private Date lastModifiedDate;
 }

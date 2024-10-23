@@ -1,6 +1,7 @@
 package com.usmobile.assessment.cycle_usage_service.repository;
 
 import com.usmobile.assessment.cycle_usage_service.models.BillingCycle;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,16 +43,16 @@ class BillingCycleRepositoryTest {
     }
 
     private List<BillingCycle> createMockBillingCycles() {
-        Date startDate1 = new Date(1727740800); // 10/01/2024 00:00:00-0400
-        Date endDate1 = new Date(1730332800); // 10/31/2024 00:00:00-0400
+        Date currentDate = new Date();
 
-        Date startDate2 = new Date(1696132800); // 10/01/2023 00:00:00-0400
-        Date endDate2 = new Date(1698724800); // 10/01/2023 00:00:00-0400
+        Date date15DaysBefore = DateUtils.addDays(currentDate, -15);
+        Date date15DaysAfter = DateUtils.addDays(currentDate, 15);
+        Date date45DaysBefore = DateUtils.addDays(currentDate, -45);
 
-        BillingCycle billingCycle1 = new BillingCycle("1", "5555555555", startDate1, endDate1, "testUserId1");
-        BillingCycle billingCycle2 = new BillingCycle("2", "4444444444", startDate1, endDate1, "testUserId2");
-        BillingCycle billingCycle3 = new BillingCycle("3", "1111111111", startDate1, endDate1, "testUserId1");
-        BillingCycle billingCycle4 = new BillingCycle("4", "5555555555", startDate2, endDate2, "testUserId1");
+        BillingCycle billingCycle1 = new BillingCycle("1", "5555555555", date15DaysBefore, date15DaysAfter, "testUserId1", date15DaysBefore, date15DaysBefore);
+        BillingCycle billingCycle2 = new BillingCycle("2", "4444444444", date15DaysBefore, date15DaysAfter, "testUserId2", date15DaysBefore, date15DaysBefore);
+        BillingCycle billingCycle3 = new BillingCycle("3", "1111111111", date15DaysBefore, date15DaysAfter, "testUserId1", date15DaysBefore, date15DaysBefore);
+        BillingCycle billingCycle4 = new BillingCycle("4", "5555555555", date45DaysBefore, date15DaysBefore, "testUserId1", date45DaysBefore, date45DaysBefore);
 
         return List.of(billingCycle1, billingCycle2, billingCycle3, billingCycle4);
     }
@@ -60,15 +61,15 @@ class BillingCycleRepositoryTest {
     @DisplayName("findCurrentBillingCycle returns the current active billing cycle if the date falls within the cycle for a given userId and mdn")
     void testFindCurrentBillingCycle() {
         // Arrange
-        Date today = new Date(1729137600); // 10/17/2024 00:00:00-0400
+        Date currentDate = new Date(); // 10/17/2024 00:00:00-0400
 
         // Act
-        List<BillingCycle> currentBillingCyles = billingCycleRepository.findCurrentBillingCycle("testUserId1", "5555555555", today);
+        List<BillingCycle> currentBillingCyles = billingCycleRepository.findCurrentBillingCycle("testUserId1", "5555555555", currentDate);
         BillingCycle currentBillingCyle = currentBillingCyles.get(0);
 
         // Assert
         assertThat(currentBillingCyles.size()).isEqualTo(1);
-        assertThat(today).isAfterOrEqualTo(currentBillingCyle.getStartDate()).isBeforeOrEqualTo(currentBillingCyle.getEndDate());
+        assertThat(currentDate).isAfterOrEqualTo(currentBillingCyle.getStartDate()).isBeforeOrEqualTo(currentBillingCyle.getEndDate());
     }
 
     @Test

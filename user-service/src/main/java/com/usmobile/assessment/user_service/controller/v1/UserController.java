@@ -2,10 +2,7 @@ package com.usmobile.assessment.user_service.controller.v1;
 
 import com.usmobile.assessment.user_service.request.v1.CreateUserRequest;
 import com.usmobile.assessment.user_service.request.v1.UpdateUserRequest;
-import com.usmobile.assessment.user_service.request.v1.UpdateUsersRequest;
 import com.usmobile.assessment.user_service.response.v1.CreateUserResponse;
-import com.usmobile.assessment.user_service.response.v1.GetUserResponse;
-import com.usmobile.assessment.user_service.response.v1.GetUsersResponse;
 import com.usmobile.assessment.user_service.service.UserService;
 import com.usmobile.assessment.user_service.util.LoggerUtil;
 import jakarta.validation.Valid;
@@ -25,7 +22,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Create New User
     @PostMapping("/user")
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest request) {
         LoggerUtil.logInfo("Creating User with request body: ", request);
@@ -33,16 +29,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Update Users
-    @PutMapping("/users")
-    public ResponseEntity<Void> updateUsers(@RequestBody @Valid UpdateUsersRequest request) {
-        LoggerUtil.logInfo("Updating Users request body: ", request);
-        userService.updateUsers(request);
-        return ResponseEntity.noContent().build();
-    }
-
     // Update Single User
-    // No need to return anything
+    // No need to return anything ?
     @PutMapping("/user")
     public ResponseEntity<Void> updateUser(
             @RequestBody @Valid UpdateUserRequest request) {
@@ -51,17 +39,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // Get User By Id - for Testing Purposes
-    @GetMapping("/user/{id}")
-    public ResponseEntity<GetUserResponse> getUserById(@PathVariable String id) {
-        GetUserResponse response = userService.getUserById(id);
-        return ResponseEntity.ok(response);
-    }
-
-    // Get All Users - for Testing Purposes
-    @GetMapping("/users")
-    public ResponseEntity<GetUsersResponse> getAllUsers() {
-        GetUsersResponse response = userService.getAllUsers();
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/{id}")
+//    public ResponseEntity<String> createJwtToken(@PathVariable String id){
+//        String token = jwtUtil.generateToken(id);
+//        String userId = jwtUtil.extractUserId(token);
+//        return ResponseEntity.ok("Token:" + token + " userId: " + userId);
+//    }
 }

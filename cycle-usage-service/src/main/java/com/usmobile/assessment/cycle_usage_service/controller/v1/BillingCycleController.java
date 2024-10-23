@@ -26,11 +26,11 @@ public class BillingCycleController {
     }
 
     // Get Current Cycle Usage
-    @GetMapping("/total-usage")
+    @GetMapping("/current-usage")
     public ResponseEntity<BillingCycleUsageResponse> getDailyUsageForCurrentCycle(
             @RequestParam @Valid String mdn,
             @AuthenticationPrincipal BasicUserDetails basicUserDetails
-    ) {
+    ) throws Exception {
         BillingCycleUsageResponse response = billingCycleService.getDailyUsageForCurrentCycle(basicUserDetails.getUserId(), mdn);
         return ResponseEntity.ok(response);
     }

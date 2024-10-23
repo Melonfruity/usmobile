@@ -8,7 +8,7 @@ public class LoggerUtil {
     private static final Logger logger = LoggerFactory.getLogger(LoggerUtil.class);
 
     // Log at INFO level
-    public static void logInfo(String message, Object data) {
+    public static void logInfo(String message, Object... data) {
         logger.info(formatMessage(message, data));
     }
 

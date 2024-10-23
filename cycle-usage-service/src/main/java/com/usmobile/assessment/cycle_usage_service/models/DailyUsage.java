@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,9 +20,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "daily_usage")
-//@CompoundIndexes({
-//        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}") // Index based on userId as first field and mdn as second
-//})
+@CompoundIndexes({
+        @CompoundIndex(name = "user_mdn_idx", def = "{'userId': 1, 'mdn': 1}") // Index based on userId as first field and mdn as second
+})
 public class DailyUsage {
 
     @Id
@@ -45,4 +47,10 @@ public class DailyUsage {
     // the usage needs to be since BigDecimal has increased computational complexity
     @NotNull(message = "Usage date is required")
     private Double usageInMb;
+
+    @CreatedDate
+    private Date createdDate;
+
+    @LastModifiedDate
+    private Date lastModifiedDate;
 }

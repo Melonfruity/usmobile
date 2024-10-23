@@ -1,11 +1,16 @@
 package com.usmobile.assessment.user_service.security.util;
 
+import com.usmobile.assessment.user_service.util.LoggerUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,47 +20,64 @@ import java.util.function.Function;
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    private static String secret;
+    private String base64EncodedKey;
+
+    @Value("${jwt.expiration}")
+    private Integer exp;
+
+    // Create Signing Key
+    private SecretKey getSecretKey() {
+        LoggerUtil.logInfo("Generated secret", base64EncodedKey); // TODO REMOVE
+        return Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64EncodedKey));
+    }
 
     // Extract the 'userId' from the token
-    public static String extractUserId(String token) {
+    public String extractUserId(String token) {
         return extractClaim(token, claims -> claims.get("userId", String.class));
     }
 
-    public static <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private static Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+    private Claims extractAllClaims(String token) {
+        try {
+            LoggerUtil.logDebug("Extracting From Token: ", token);
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (SignatureException e) {
+            // Handle invalid JWT signature
+            throw new RuntimeException("Invalid JWT signature: " + e.getMessage());
+        } catch (Exception e) {
+            // Handle other exceptions
+            throw new RuntimeException("Unable to extract claims: " + e.getMessage());
+        }
     }
 
     // Generate token with userId
-    public static String generateToken(String userId, String username) {
+    public String generateToken(String userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);  // Add userId to the token
-        return createToken(claims, username);
+        return createToken(claims);
     }
 
-    private static String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims) {
+        LoggerUtil.logInfo("Creating Token");
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours validity
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(new Date(System.currentTimeMillis() + exp))
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // Validate the token if it contains a 'userId' and is not expired
-    public static Boolean validateToken(String token) {
+    public Boolean validateToken(String token) {
         final String userId = extractUserId(token);
         return (userId != null);
     }
-
-    // TODO - Token Expiration is not implementd
 }
