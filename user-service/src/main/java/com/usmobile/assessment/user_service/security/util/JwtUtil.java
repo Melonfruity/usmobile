@@ -27,7 +27,6 @@ public class JwtUtil {
 
     // Create Signing Key
     private SecretKey getSecretKey() {
-        LoggerUtil.logInfo("Generated secret", base64EncodedKey); // TODO REMOVE
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64EncodedKey));
     }
 

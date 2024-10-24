@@ -42,9 +42,6 @@ To do
 5. Figure out how to do DB auditing to splunk?
 6. Create a swagger doc
 7. Fix up User Service and add Auth Service to it
-<<<<<<< HEAD
-8. Splunk/Alternative Auditing
-=======
 8. Splunk/Alternative Auditing
 
 
@@ -55,4 +52,3 @@ For Billing Cycle Test
 Add Test Spy on getDailyUsageForCurrentCycle is called with the correct input
 Add Test Spy on findCurrentBillingCycle is called with the correct input
 Add Test Spy on findUsageWithinCycle is called with the correct input
->>>>>>> fc796a1 (remove docker image from commit)

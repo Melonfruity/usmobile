@@ -1,4 +1,4 @@
-package com.usmobile.assessment.user_service.request.v1;
+package com.usmobile.assessment.user_service.request.v1.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,9 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor // For Serialization / Deserialization JSON
-@AllArgsConstructor // Simplifying Object Creation for Creation
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateUserRequest {
+
     @NotBlank(message = "First name is required")
     private String firstName;
 

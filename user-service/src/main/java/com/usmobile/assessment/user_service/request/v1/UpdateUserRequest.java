@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data // create getter setters
-@NoArgsConstructor // For Serialization / Deserialization JSON
-@AllArgsConstructor // Simplifying Object Creation for Creation
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateUserRequest {
-    private String id;
-
+    
     private String firstName;
 
     private String lastName;

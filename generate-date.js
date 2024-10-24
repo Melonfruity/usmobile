@@ -41,23 +41,25 @@ async function run() {
         // Insert billing cycles
         const billingCycleResults = await billingCyclesCollection.insertMany(billingCycles);
 
+        console.log("Billing Cycles: ", billingCycleResults);
+
         // Create daily usages for each billing cycle
-        for (const cycle of billingCycleResults.insertedIds) {
-            const cycleStartDate = billingCycles[cycle - 1].startDate;
-            const cycleEndDate = billingCycles[cycle - 1].endDate;
+        for (const cycle of Object.values(billingCycleResults.insertedIds)) {
+          
+            console.log(await cycle);
 
-            // Generate 5 daily usages within the billing cycle range
-            for (let i = 0; i < 5; i++) {
-                const usageDate = moment(cycleStartDate).add(i, 'days').toDate();
-                const dailyUsage = {
-                    mdn,
-                    userId: userId.toString(),
-                    usageDate: usageDate,
-                    usageInMb: Math.floor(Math.random() * 100) + 1 // Random usage between 1-100 MB
-                };
+            // // Generate 5 daily usages within the billing cycle range
+            // for (let i = 0; i < 5; i++) {
+            //     const usageDate = moment(cycleStartDate).add(i, 'days').toDate();
+            //     const dailyUsage = {
+            //         mdn,
+            //         userId: userId.toString(),
+            //         usageDate: usageDate,
+            //         usageInMb: Math.floor(Math.random() * 100) + 1 // Random usage between 1-100 MB
+            //     };
 
-                await dailyUsagesCollection.insertOne(dailyUsage);
-            }
+            //     await dailyUsagesCollection.insertOne(dailyUsage);
+            // }
         }
     }
 

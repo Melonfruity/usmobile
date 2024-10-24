@@ -1,6 +1,7 @@
 package com.usmobile.assessment.cycle_usage_service.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -28,23 +29,23 @@ public class BillingCycle {
     @Id
     private String id;
 
-    @NotNull(message = "MDN is required")
+    @NotBlank(message = "MDN is required")
     @Pattern(regexp = "\\d{10}", message = "MDN must be a 10-digit number")
     private String mdn;
 
     // Start Date must be in the format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
-    @NotNull(message = "Start date is required")
+    @NotBlank(message = "Start date is required")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat
     private Date startDate;
 
     // End Date must be in the format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
-    @NotNull(message = "End date is required")
+    @NotBlank(message = "End date is required")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat
     private Date endDate;
 
-    @NotNull(message = "User ID is required")
+    @NotBlank(message = "User ID is required")
     private String userId;
 
     @CreatedDate

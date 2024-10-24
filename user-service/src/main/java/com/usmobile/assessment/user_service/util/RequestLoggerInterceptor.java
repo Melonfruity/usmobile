@@ -1,4 +1,4 @@
-package com.usmobile.assessment.cycle_usage_service.util;
+package com.usmobile.assessment.user_service.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

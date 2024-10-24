@@ -14,8 +14,6 @@ import java.nio.file.AccessDeniedException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // There is a need for generic messages.... Probably need to discuss
-
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
