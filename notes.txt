@@ -36,14 +36,6 @@ Architectural Design & considerations
       - such as maybe archiving old entries
       - if a users usage has already completed the cycle then that data can be archived as well as creating a archived aggregate of the cycle total so that the values do not need to be aggregated again
 
-To do
-2. Add TestContainers for user service
-3. Move Services to Docker
-5. Figure out how to do DB auditing to splunk?
-6. Create a swagger doc
-7. Fix up User Service and add Auth Service to it
-8. Splunk/Alternative Auditing
-
 
 Additions to the service
 For BillingCycle isActive Field for in case this Cycle has been invalidated by any mean such as when a customer has changed their line
@@ -52,7 +44,3 @@ For Billing Cycle Test
 Add Test Spy on getDailyUsageForCurrentCycle is called with the correct input
 Add Test Spy on findCurrentBillingCycle is called with the correct input
 Add Test Spy on findUsageWithinCycle is called with the correct input
-
-
-
-eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2NzE0MzIzM2ZmOGIxNDBhNmQ1ZGY1OGEiLCJpYXQiOjE3Mjk1NTY1NjIsImV4cCI6MjAyOTU5MjU2Mn0.CiGs--rVGYvln9c12hH1vO30H4XEIOQFvvSy19ToeNk

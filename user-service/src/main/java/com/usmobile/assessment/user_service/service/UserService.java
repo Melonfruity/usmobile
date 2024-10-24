@@ -30,28 +30,26 @@ public class UserService {
     }
 
     public CreateUserResponse createUser(CreateUserRequest request) {
-        try {
-            // Check if user exists
-            Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        // Check if user exists
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
 
-            User user = new User();
+        if(existingUser.isPresent()) throw new EmailAlreadyExistsException(request.getEmail());
 
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            user.setEmail(request.getEmail());
-            user.setPassword(passwordUtil.hashPassword(request.getPassword()));
+        User user = new User();
 
-            LoggerUtil.logDebug("Creating new user with email: ", request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordUtil.hashPassword(request.getPassword()));
 
-            User savedUser = userRepository.save(user);
+        LoggerUtil.logDebug("Creating new user with email: ", request.getEmail());
 
-            LoggerUtil.logDebug("User successfully saved");
+        User savedUser = userRepository.save(user);
 
-            return new CreateUserResponse(UserDTOMapper.INSTANCE.toDTO(savedUser));
+        LoggerUtil.logDebug("User successfully saved");
 
-        } catch (Exception e) {
-            throw new EmailAlreadyExistsException(request.getEmail());
-        }
+        return new CreateUserResponse(UserDTOMapper.INSTANCE.toDTO(savedUser));
+
     }
 
     public UpdateUserResponse updateUser(UpdateUserRequest request, String id) {

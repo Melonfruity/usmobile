@@ -30,21 +30,17 @@ public class User {
     private String id;
 
     @NotBlank
-    @NotEmpty
     private String firstName;
 
     @NotBlank
-    @NotEmpty
     private String lastName;
 
     @NotBlank
-    @NotEmpty
     @Indexed
     @Email
     private String email;
 
     @NotBlank
-    @NotEmpty
     @Size()
     @JsonIgnore
     private String password;
