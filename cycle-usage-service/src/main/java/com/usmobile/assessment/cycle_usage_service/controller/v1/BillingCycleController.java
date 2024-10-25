@@ -28,6 +28,7 @@ public class BillingCycleController {
             @RequestParam @Valid String mdn,
             @AuthenticationPrincipal BasicUserDetails basicUserDetails
     ) throws Exception {
+        LoggerUtil.logInfo("Getting Current Cycle Usages");
         BillingCycleUsageResponse response = billingCycleService.getDailyUsageForCurrentCycle(basicUserDetails.getUserId(), mdn);
         return ResponseEntity.ok(response);
     }
